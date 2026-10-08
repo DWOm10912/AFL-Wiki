@@ -1,16 +1,21 @@
 # AFL 官方网页 Wiki V1
 
-独立 VitePress 1.6.4 + Vue 3.5 网站；中文优先，Markdown 内容，浏览器本地全文搜索。仅本地交付，没有公开部署、远程 Git 或后端数据库。
+独立 VitePress 1.6.4 + Vue 3.5 网站；中文优先，Markdown 内容，浏览器本地全文搜索。
+
+源码仓库：[DWOm10912/AFL-Wiki](https://github.com/DWOm10912/AFL-Wiki)，默认开发分支为`main`。网站可在本地预览和静态构建，不需要后端数据库；尚未部署公开网站。
 
 ## 本地运行
 
 使用 Node.js 22或更高版本（本轮验证环境24.19.0）：
 
 ```powershell
-cd 'D:\Minecraft Modding\AFL Wiki'
+git clone https://github.com/DWOm10912/AFL-Wiki.git
+cd AFL-Wiki
 npm ci
 npm run dev
 ```
+
+已有本地检出时，直接在项目目录执行`npm ci`与`npm run dev`即可。
 
 打开终端给出的 `http://127.0.0.1:5173/`。固定端口占用会明确失败，不偷偷切换到不确定地址。依赖全部在本目录，不在 Forge 项目。
 
@@ -48,7 +53,7 @@ npm run preview
 
 现有`/en/`为明确未翻译入口。以后把对应条目放到`content/en/...`，逐步配置英文nav/sidebar及标签。当前`i18nRouting: false`让语言切换进入各语言首页，避免未翻译条目404；完整对照翻译就绪后再启用对应页跳转。不要把中文页面假装成英文翻译完成。
 
-## 可选静态部署（本轮未执行）
+## 可选静态部署（尚未部署）
 
 可使用GitHub Pages、Cloudflare Pages、Netlify或自有Nginx，仅部署`content/.vitepress/dist`。不上传源码审查记录、node_modules或整个仓库。
 
@@ -72,3 +77,9 @@ VitePress官方部署说明：https://vitepress.dev/guide/deploy
 保持VitePress稳定版1.6.4；`overrides.vite`固定为6.4.4，避开旧Vite5在开发服务器上的已知问题。此覆盖组合已通过本轮开发预览和静态构建；升级VitePress时重新确认是否仍需要覆盖。`package-lock.json`用于可重复安装，前置内容解析使用yaml 2.9.1。本轮`npm audit`为0项已知漏洞，该结果只代表检查时的软件包公告状态。
 
 开发专用的`afl-search-hmr-compat`只解析VitePress现有的`/@localSearchIndex`虚拟模块路径，消除Vite 6解析警告，不改变构建格式，也不承诺搜索索引热更新。开发文件监听忽略构建输出目录，避免构建时反复刷新预览。
+
+## 仓库范围
+
+仓库包含README、网站源码、33个Markdown页面、3张现有项目图片、页面模板、检查脚本和锁定的构建依赖配置。`node_modules`、构建产物、本地缓存、日志、环境变量文件和本地维护记录均由`.gitignore`排除。
+
+本仓库独立于Minecraft模组，不包含模组Java源码、世界存档或开发工具。代码推送不等于网站部署；没有配置自动部署工作流。

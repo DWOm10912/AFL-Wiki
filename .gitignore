@@ -4,3 +4,6 @@ content/.vitepress/dist/
 .preview/
 *.log
 .env*
+
+# Local editorial records are not part of the public source repository.
+/maintenance/
