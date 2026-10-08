@@ -11,6 +11,14 @@ export default defineConfig({
   title: 'AFL Wiki', description: '黎明启示录玩家 Wiki：原创枪械、生存机制、现代工业与世界探索。',
   lang: 'zh-CN', appearance: 'dark', base: process.env.WIKI_BASE || '/', cleanUrls: false,
   head: [['link', { rel: 'icon', type: 'image/png', href: `${process.env.WIKI_BASE || '/'}images/afl-badge.png` }]],
+  // VitePress 1.6 accepts the bare search ID but its HMR handler uses this URL.
+  // Vite 6 resolves HMR dependencies strictly; keep the existing virtual module ID.
+  vite: {
+    server: { watch: { ignored: ['**/.vitepress/dist/**'] } },
+    plugins: [{ name: 'afl-search-hmr-compat', apply: 'serve', resolveId(id) {
+      if (id === '/@localSearchIndex') return id
+    } }]
+  },
   locales: { root: { label: '简体中文', lang: 'zh-CN' }, en: { label: 'English', lang: 'en', link: '/en/', themeConfig: { nav: [{ text: '中文 Wiki', link: '/' }], sidebar: [], outlineTitle: 'On this page' } } },
   themeConfig: {
     logo: '/images/afl-badge.png', siteTitle: 'AFL / WIKI', i18nRouting: false,

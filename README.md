@@ -42,7 +42,7 @@ npm run preview
 4. 在`config.mts`对应侧栏加入路由，并在相关栏目index的cards中加入链接。现有内容frontmatter使用JSON格式（合法YAML），模板使用YAML，两者都可编辑。
 5. 运行内容检查、构建和产物检查。更新核对日期及维护用来源记录；不要把内部文档整包复制到content。
 
-全文搜索自动索引Markdown标题与正文。中文分词在本地进行，不依赖搜索SaaS或上传查询。自定义资料卡中的重要参数也应在Markdown正文表格中记录，以进入索引并保持无JavaScript可读性。
+全文搜索在启动预览和静态构建时索引Markdown标题与正文。当前VitePress 1.6开发预览的搜索索引不会可靠地随Markdown热更新；编辑内容后，若需要立即检查新搜索结果，请在运行`npm run dev`的终端按Ctrl+C并重新执行该命令。页面正文的热更新不等于搜索索引已经刷新。中文分词在本地进行，不依赖搜索SaaS或上传查询。自定义资料卡中的重要参数也应在Markdown正文表格中记录，以进入索引并保持无JavaScript可读性。
 
 ## 英文扩展
 
@@ -70,3 +70,5 @@ VitePress官方部署说明：https://vitepress.dev/guide/deploy
 ## 工具链维护
 
 保持VitePress稳定版1.6.4；`overrides.vite`固定为6.4.4，避开旧Vite5在开发服务器上的已知问题。此覆盖组合已通过本轮开发预览和静态构建；升级VitePress时重新确认是否仍需要覆盖。`package-lock.json`用于可重复安装，前置内容解析使用yaml 2.9.1。本轮`npm audit`为0项已知漏洞，该结果只代表检查时的软件包公告状态。
+
+开发专用的`afl-search-hmr-compat`只解析VitePress现有的`/@localSearchIndex`虚拟模块路径，消除Vite 6解析警告，不改变构建格式，也不承诺搜索索引热更新。开发文件监听忽略构建输出目录，避免构建时反复刷新预览。
